@@ -1,5 +1,10 @@
+package JavaIO;
+
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
@@ -30,6 +35,8 @@ public class ThoughtLogger {
                 if(line.equalsIgnoreCase("Q")){
                     System.out.println("Exiting Notes.....");
                     System.out.println("----------------------------------------------------------------");
+                    System.out.printf("Date: %s | Time: %s", LocalDate.now(), LocalTime.now());
+                    System.out.println("\n----------------------------------------------------------------");
                     break;
                 }
 
@@ -45,7 +52,7 @@ public class ThoughtLogger {
 
     public static void FileLogger(String text, String filepath){
         try(OutputStreamWriter writer = new OutputStreamWriter(
-                new FileOutputStream(filepath))){
+                new FileOutputStream(filepath), StandardCharsets.UTF_8)){
 
             writer.write(text);
         }
@@ -59,7 +66,7 @@ public class ThoughtLogger {
 
     public static void recordReader(String filepath){
         try(InputStreamReader reader = new InputStreamReader(
-                new FileInputStream(filepath))){
+                new FileInputStream(filepath), StandardCharsets.UTF_8)){
             int ch;
             while((ch = reader.read()) != -1){
                 System.out.print((char) ch);
