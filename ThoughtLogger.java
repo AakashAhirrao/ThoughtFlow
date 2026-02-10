@@ -1,5 +1,3 @@
-package JavaIO;
-
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -17,21 +15,32 @@ public class ThoughtLogger {
         filepath =  "record_"+timestamp+".txt";
     }
 
-    public static String userInput(){
+    public static String userInput(Scanner sc){
 
-        String text = "";
-        try(Scanner sc = new Scanner(System.in)) {
+        StringBuilder text = new StringBuilder();
+        try{
 
             System.out.println("Welcome to Thought Logger!!! 💭💭");
-            System.out.println("What's on your mind today");
-            System.out.println();
+            System.out.println("What's on your mind today (Type 'Q' on a new line to finish)");
+            System.out.println("-----------------------------------------------------------");
             System.out.print("--> ");
-            text = sc.nextLine();
+            while (true){
+                String line = sc.nextLine();
+
+                if(line.equalsIgnoreCase("Q")){
+                    System.out.println("Exiting Notes.....");
+                    System.out.println("----------------------------------------------------------------");
+                    break;
+                }
+
+                text.append(line).append(System.lineSeparator());
+            }
+
         }
         catch (Exception e){
             System.out.println("Something went wrong while taking input");
         }
-        return text;
+        return text.toString();
     }
 
     public static void FileLogger(String text, String filepath){
@@ -67,8 +76,11 @@ public class ThoughtLogger {
 
     public static void main(String[] args){
 
-        fileInitializer();
-        FileLogger(userInput(), filepath);
-        recordReader(filepath);
+        try(Scanner sc = new Scanner(System.in)) {
+
+            fileInitializer();
+            FileLogger(userInput(sc), filepath);
+            recordReader(filepath);
+        }
     }
 }
