@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class ThoughtLogger {
 
     static String filepath = "records.txt";
+    static File file = new File(filepath);
 
 /*    public static void fileInitializer() {
 
@@ -57,13 +58,14 @@ public class ThoughtLogger {
         return text.toString();
     }
 
-    public static void FileLogger(String text, String filepath) {
+    public static void FileLogger(String text, File file) {
 
         String dateStr = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String timeStr = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
-        try (OutputStreamWriter writer = new OutputStreamWriter(
-                new FileOutputStream(filepath), StandardCharsets.UTF_8)) {
+        try (BufferedWriter writer =
+                     new BufferedWriter(
+                             new FileWriter(file, StandardCharsets.UTF_8, true))) {
             writer.write("[ENTRY START]\n");
             writer.write("Date: " + dateStr + "\n");
             writer.write("Time: " + timeStr + "\n");
@@ -79,12 +81,14 @@ public class ThoughtLogger {
         }
     }
 
-    public static void recordReader(String filepath) {
-        try (InputStreamReader reader = new InputStreamReader(
-                new FileInputStream(filepath), StandardCharsets.UTF_8)) {
-            int ch;
-            while ((ch = reader.read()) != -1) {
-                System.out.print((char) ch);
+    public static void recordReader(File file) {
+        try (BufferedReader reader =
+                     new BufferedReader(
+                             new FileReader(file, StandardCharsets.UTF_8))) {
+
+            String ch;
+            while ((ch = reader.readLine()) != null) {
+                System.out.println(ch);
             }
 
         } catch (FileNotFoundException e) {
@@ -99,8 +103,10 @@ public class ThoughtLogger {
         try (Scanner sc = new Scanner(System.in)) {
 
 //            fileInitializer();
-            FileLogger(userInput(sc), filepath);
-//            recordReader(filepath);
+            if (file.exists()) {
+                FileLogger(userInput(sc), file);
+//            recordReader(file);
+            }
         }
     }
 }
