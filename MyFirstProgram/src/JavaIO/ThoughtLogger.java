@@ -10,15 +10,15 @@ import java.util.Scanner;
 
 public class ThoughtLogger {
 
-    static String filepath = "";
+    static String filepath = "records.txt";
 
-    public static void fileInitializer() {
+/*    public static void fileInitializer() {
 
         String timestamp = LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
 
         filepath = "record_" + timestamp + ".txt";
-    }
+    }*/
 
     public static String userInput(Scanner sc) {
 
@@ -58,10 +58,20 @@ public class ThoughtLogger {
     }
 
     public static void FileLogger(String text, String filepath) {
+
+        String dateStr = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String timeStr = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+
         try (OutputStreamWriter writer = new OutputStreamWriter(
                 new FileOutputStream(filepath), StandardCharsets.UTF_8)) {
-
+            writer.write("[ENTRY START]\n");
+            writer.write("Date: " + dateStr + "\n");
+            writer.write("Time: " + timeStr + "\n");
+            writer.write("------------------------------------\n");
             writer.write(text);
+            writer.write("------------------------------------\n");
+            writer.write("[ENTRY END]\n");
+            writer.write("\n");
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -88,9 +98,9 @@ public class ThoughtLogger {
 
         try (Scanner sc = new Scanner(System.in)) {
 
-            fileInitializer();
+//            fileInitializer();
             FileLogger(userInput(sc), filepath);
-            recordReader(filepath);
+//            recordReader(filepath);
         }
     }
 }
