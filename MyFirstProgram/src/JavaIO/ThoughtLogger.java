@@ -34,26 +34,19 @@ public class ThoughtLogger {
                 String line = sc.nextLine();
 
                 if (line.equalsIgnoreCase("Q")) {
-                    System.out.print("Exiting Notes...");
-                    Thread.sleep(500);
-                    System.out.print("\r                           \r");
-                    System.out.print("\nSaving Notes.");
-                    for (int i = 0; i < 2; i++) {
-                        System.out.print(".");
-                        Thread.sleep(1000);
-                    }
+                    loadingAnimation();
                     System.out.println("\n----------------------------------------------------------------");
                     System.out.printf("Date: %s | Time: %s", LocalDate.now(), LocalTime.now());
                     System.out.println("\n----------------------------------------------------------------");
-                    System.out.print("NOTE SAVED...");
+//                    System.out.print("NOTE SAVED...");
                     break;
                 }
 
                 text.append(line).append(System.lineSeparator());
             }
 
-        } catch (InterruptedException e) {
-            System.out.println("Program was interrupted when saving");
+//        } catch (InterruptedException e) {
+//            System.out.println("Program was interrupted when saving");
         } catch (Exception e) {
             System.out.println("Something went wrong while taking input");
         }
@@ -97,6 +90,21 @@ public class ThoughtLogger {
             throw new RuntimeException(e);
         } catch (IOException e) {
             System.out.println("Something went wrong while reading your thoughts :(");
+        }
+    }
+
+    public static void loadingAnimation(){
+        String[] spinner = {"|", "/", "-", "\\"};
+        System.out.print("Saving your thoughts...");
+        try{
+            for (int i=0; i<10; i++){
+                System.out.print("\rSaving thoughts... " + spinner[i % 4]);
+                Thread.sleep(150);
+            }
+            System.out.print("\rDone! ✅                    ");
+        }
+        catch (InterruptedException e){
+            System.out.println(e.getMessage());
         }
     }
 
