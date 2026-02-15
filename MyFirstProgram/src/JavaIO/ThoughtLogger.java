@@ -34,11 +34,11 @@ public class ThoughtLogger {
                 String line = sc.nextLine();
 
                 if (line.equalsIgnoreCase("Q")) {
-                    System.out.print("Exiting Notes.....");
-                    Thread.sleep(1000);
-                    System.out.println("\r                                \r");
+                    System.out.print("Exiting Notes...");
+                    Thread.sleep(500);
+                    System.out.print("\r                           \r");
                     System.out.print("\nSaving Notes.");
-                    for (int i = 0; i < 3; i++) {
+                    for (int i = 0; i < 2; i++) {
                         System.out.print(".");
                         Thread.sleep(1000);
                     }
